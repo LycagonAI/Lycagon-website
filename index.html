@@ -1,0 +1,1787 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lycagon | AI-ready infrastructure, code, and knowledge systems</title>
+    <meta
+      name="description"
+      content="Deploy Lycagon inside your environment to diagnose whether your code, graph databases, knowledge bases, RAG systems, and infrastructure are ready for AI agents."
+    />
+    <meta name="theme-color" content="#11100e" />
+    <style>
+      :root {
+        --ink: #161411;
+        --ink-soft: #423c35;
+        --paper: #f8f7f2;
+        --paper-strong: #ffffff;
+        --line: #d8d2c4;
+        --line-dark: rgba(255, 255, 255, 0.16);
+        --night: #11100e;
+        --night-2: #1d1915;
+        --mint: #00a78e;
+        --mint-deep: #007d70;
+        --amber: #f1b23e;
+        --coral: #d9543f;
+        --plum: #6f4a8e;
+        --steel: #6c7a80;
+        --shadow: 0 24px 80px rgba(22, 20, 17, 0.12);
+        --radius: 8px;
+        --max: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        text-rendering: optimizeLegibility;
+      }
+
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      .skip-link {
+        position: fixed;
+        left: 16px;
+        top: 12px;
+        z-index: 20;
+        transform: translateY(-140%);
+        background: var(--paper-strong);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 10px 14px;
+        transition: transform 160ms ease;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .site-header {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 10;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(17, 16, 14, 0.78);
+        color: #fffaf1;
+        backdrop-filter: blur(18px);
+      }
+
+      .nav-shell {
+        width: min(var(--max), calc(100% - 40px));
+        margin: 0 auto;
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+        font-weight: 760;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        color: var(--night);
+        background: var(--paper-strong);
+        border: 1px solid rgba(255, 255, 255, 0.52);
+        border-radius: 50%;
+        flex: 0 0 auto;
+      }
+
+      .brand-mark::before {
+        content: "";
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--mint);
+        border-top-color: var(--amber);
+        border-right-color: var(--coral);
+        border-radius: 50%;
+      }
+
+      .brand span:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-links a {
+        border-radius: 999px;
+        padding: 9px 13px;
+        color: rgba(255, 250, 241, 0.82);
+        font-size: 0.94rem;
+        transition:
+          color 160ms ease,
+          background 160ms ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+        outline: none;
+      }
+
+      .nav-cta {
+        background: #fffaf1;
+        color: var(--night) !important;
+      }
+
+      .menu-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 50%;
+        background: transparent;
+        color: #fffaf1;
+        cursor: pointer;
+      }
+
+      .menu-toggle span,
+      .menu-toggle span::before,
+      .menu-toggle span::after {
+        width: 18px;
+        height: 2px;
+        display: block;
+        background: currentColor;
+        content: "";
+        transition:
+          transform 180ms ease,
+          opacity 180ms ease;
+      }
+
+      .menu-toggle span::before {
+        transform: translateY(-6px);
+      }
+
+      .menu-toggle span::after {
+        transform: translateY(4px);
+      }
+
+      .menu-open .menu-toggle span {
+        transform: rotate(45deg);
+      }
+
+      .menu-open .menu-toggle span::before {
+        opacity: 0;
+      }
+
+      .menu-open .menu-toggle span::after {
+        transform: translateY(-2px) rotate(-90deg);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 82vh;
+        overflow: hidden;
+        color: #fffaf1;
+        background: var(--night);
+        isolation: isolate;
+      }
+
+      .hero::after {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: rgba(17, 16, 14, 0.7);
+        content: "";
+      }
+
+      .network-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        background: var(--night);
+      }
+
+      .hero-grid {
+        width: min(var(--max), calc(100% - 40px));
+        min-height: 82vh;
+        margin: 0 auto;
+        padding: 112px 0 38px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+        align-items: center;
+        gap: clamp(32px, 6vw, 92px);
+      }
+
+      .eyebrow {
+        width: fit-content;
+        max-width: 100%;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 18px;
+        color: rgba(255, 250, 241, 0.82);
+        font-size: 0.88rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 26px;
+        height: 2px;
+        flex: 0 0 auto;
+        background: var(--mint);
+        content: "";
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 20px;
+        font-size: clamp(3.35rem, 8vw, 7rem);
+        line-height: 0.92;
+        font-weight: 820;
+        letter-spacing: 0;
+      }
+
+      .hero-copy {
+        max-width: 700px;
+        color: rgba(255, 250, 241, 0.88);
+        font-size: clamp(1.06rem, 1.9vw, 1.28rem);
+        line-height: 1.48;
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.34);
+      }
+
+      .hero-actions {
+        margin-top: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .button {
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 12px 18px;
+        cursor: pointer;
+        font-weight: 760;
+        line-height: 1.2;
+        transition:
+          transform 160ms ease,
+          background 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--mint);
+        color: #041f1c;
+      }
+
+      .button-primary:hover {
+        background: #19c7ae;
+      }
+
+      .button-secondary {
+        color: #fffaf1;
+        border-color: rgba(255, 255, 255, 0.24);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .button-secondary:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+
+      .arrow {
+        font-size: 1.15em;
+        line-height: 1;
+      }
+
+      .hero-proof {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(120px, 1fr));
+        gap: 14px;
+        max-width: 660px;
+      }
+
+      .proof-item {
+        padding-top: 14px;
+        border-top: 1px solid var(--line-dark);
+      }
+
+      .proof-item strong {
+        display: block;
+        color: #ffffff;
+        font-size: 1.38rem;
+        line-height: 1.1;
+      }
+
+      .proof-item span {
+        display: block;
+        margin-top: 5px;
+        color: rgba(255, 250, 241, 0.72);
+        font-size: 0.88rem;
+      }
+
+      .signal-panel {
+        align-self: end;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius);
+        background: rgba(255, 250, 241, 0.08);
+        box-shadow: 0 24px 90px rgba(0, 0, 0, 0.28);
+        overflow: hidden;
+      }
+
+      .panel-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .panel-title {
+        font-weight: 780;
+      }
+
+      .panel-state {
+        color: var(--amber);
+        font-size: 0.9rem;
+        font-weight: 760;
+      }
+
+      .signal-body {
+        padding: 18px;
+      }
+
+      .score-dial {
+        display: grid;
+        grid-template-columns: 130px minmax(0, 1fr);
+        align-items: center;
+        gap: 20px;
+      }
+
+      .dial {
+        position: relative;
+        width: 130px;
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background:
+          conic-gradient(var(--mint) 0deg 144deg, var(--amber) 144deg 270deg, rgba(255, 255, 255, 0.15) 270deg),
+          #24201b;
+      }
+
+      .dial::after {
+        position: absolute;
+        inset: 14px;
+        border-radius: 50%;
+        background: rgba(17, 16, 14, 0.94);
+        content: "";
+      }
+
+      .dial span {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        text-align: center;
+        color: #ffffff;
+      }
+
+      .dial strong {
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .dial small {
+        margin-top: 4px;
+        color: rgba(255, 250, 241, 0.64);
+        font-size: 0.82rem;
+      }
+
+      .diagnosis-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .diagnosis-list li {
+        display: grid;
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 12px;
+        color: rgba(255, 250, 241, 0.78);
+        font-size: 0.94rem;
+      }
+
+      .diagnosis-list b {
+        color: #ffffff;
+        font-weight: 760;
+      }
+
+      .terminal {
+        margin-top: 16px;
+        padding: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--radius);
+        background: rgba(0, 0, 0, 0.24);
+        color: rgba(255, 250, 241, 0.78);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.78rem;
+        line-height: 1.6;
+        overflow: hidden;
+      }
+
+      .terminal span {
+        color: var(--mint);
+      }
+
+      main {
+        position: relative;
+      }
+
+      .section {
+        padding: clamp(68px, 9vw, 118px) 0;
+      }
+
+      .section.compact {
+        padding: clamp(54px, 7vw, 84px) 0;
+      }
+
+      .container {
+        width: min(var(--max), calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(260px, 0.75fr);
+        gap: clamp(26px, 6vw, 74px);
+        align-items: end;
+        margin-bottom: clamp(30px, 5vw, 52px);
+      }
+
+      .section-kicker {
+        margin-bottom: 10px;
+        color: var(--mint-deep);
+        font-size: 0.82rem;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-size: clamp(2rem, 5vw, 4.65rem);
+        line-height: 1.02;
+        font-weight: 820;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        margin-bottom: 0;
+        color: var(--ink-soft);
+        font-size: 1.04rem;
+      }
+
+      .intro-band {
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: var(--paper-strong);
+      }
+
+      .intro-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+        gap: clamp(32px, 7vw, 92px);
+        align-items: center;
+      }
+
+      .lead-text {
+        color: var(--ink-soft);
+        font-size: clamp(1.16rem, 2vw, 1.42rem);
+        line-height: 1.48;
+      }
+
+      .quote-block {
+        border-left: 4px solid var(--coral);
+        padding: 6px 0 6px 24px;
+        color: var(--ink);
+        font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+        line-height: 1.26;
+        font-weight: 760;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        min-height: 100%;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 22px;
+        background: var(--paper-strong);
+        box-shadow: 0 12px 40px rgba(22, 20, 17, 0.05);
+      }
+
+      .card-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+        color: var(--ink-soft);
+        font-size: 0.84rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .mini-icon {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: var(--ink);
+        background: color-mix(in srgb, var(--icon-color, var(--mint)) 18%, white);
+      }
+
+      .mini-icon::before {
+        width: 12px;
+        height: 12px;
+        border: 2px solid var(--icon-color, var(--mint));
+        border-radius: 3px;
+        content: "";
+      }
+
+      .card:nth-child(2) .mini-icon::before {
+        border-radius: 50%;
+      }
+
+      .card:nth-child(3) .mini-icon::before {
+        width: 14px;
+        height: 2px;
+        border: 0;
+        background: var(--icon-color, var(--mint));
+        box-shadow:
+          0 -5px 0 var(--icon-color, var(--mint)),
+          0 5px 0 var(--icon-color, var(--mint));
+      }
+
+      .card:nth-child(4) .mini-icon::before {
+        border-radius: 0;
+        transform: rotate(45deg);
+      }
+
+      .card h3 {
+        margin-bottom: 10px;
+        font-size: 1.22rem;
+        line-height: 1.22;
+      }
+
+      .card p {
+        margin-bottom: 0;
+        color: var(--ink-soft);
+        font-size: 0.96rem;
+      }
+
+      .dark-section {
+        color: #fffaf1;
+        background: var(--night-2);
+      }
+
+      .dark-section .section-kicker {
+        color: var(--amber);
+      }
+
+      .dark-section .section-heading p {
+        color: rgba(255, 250, 241, 0.7);
+      }
+
+      .method-grid {
+        display: grid;
+        grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+        gap: clamp(28px, 6vw, 78px);
+        align-items: start;
+      }
+
+      .method-copy p {
+        color: rgba(255, 250, 241, 0.72);
+      }
+
+      .method-steps {
+        display: grid;
+        gap: 14px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 60px minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+        padding: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius);
+        background: rgba(255, 250, 241, 0.05);
+      }
+
+      .step-number {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 50%;
+        color: #ffffff;
+        font-weight: 820;
+      }
+
+      .step h3 {
+        margin-bottom: 6px;
+        font-size: 1.1rem;
+      }
+
+      .step p {
+        margin-bottom: 0;
+        color: rgba(255, 250, 241, 0.7);
+      }
+
+      .signal-matrix {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .matrix-row {
+        display: grid;
+        grid-template-columns: 0.8fr 1fr 1fr;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .matrix-row:first-child {
+        border-top: 0;
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 0.82rem;
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .matrix-row > div {
+        min-width: 0;
+        padding: 15px;
+        border-left: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .matrix-row > div:first-child {
+        border-left: 0;
+        color: #ffffff;
+        font-weight: 760;
+      }
+
+      .matrix-row:not(:first-child) > div:not(:first-child) {
+        color: rgba(255, 250, 241, 0.68);
+      }
+
+      .readiness-section {
+        background: #ece8de;
+      }
+
+      .readiness-tool {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(320px, 0.65fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .control-panel,
+      .result-panel,
+      .contact-panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper-strong);
+        box-shadow: var(--shadow);
+      }
+
+      .control-panel,
+      .result-panel {
+        padding: clamp(22px, 4vw, 34px);
+      }
+
+      .slider-group {
+        display: grid;
+        gap: 24px;
+      }
+
+      .slider-row {
+        display: grid;
+        gap: 10px;
+      }
+
+      .slider-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: baseline;
+      }
+
+      .slider-label span:first-child {
+        font-weight: 780;
+      }
+
+      .slider-label output {
+        color: var(--mint-deep);
+        font-weight: 820;
+      }
+
+      .slider-row p {
+        margin-bottom: 0;
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--mint);
+      }
+
+      .result-score {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .score-number {
+        width: 116px;
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--ink);
+        font-size: 2.4rem;
+        font-weight: 820;
+      }
+
+      .score-title {
+        margin-bottom: 4px;
+        font-size: 1.22rem;
+        font-weight: 820;
+        line-height: 1.22;
+      }
+
+      .score-copy {
+        margin-bottom: 0;
+        color: var(--ink-soft);
+      }
+
+      .risk-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .risk-item {
+        display: grid;
+        gap: 7px;
+      }
+
+      .risk-item span {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--ink-soft);
+        font-size: 0.9rem;
+      }
+
+      .risk-bar {
+        height: 9px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #e5dfd2;
+      }
+
+      .risk-bar i {
+        display: block;
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--coral);
+        transition: width 220ms ease;
+      }
+
+      .priority-list {
+        margin: 24px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .priority-list li {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0;
+        border-top: 1px solid var(--line);
+        color: var(--ink-soft);
+      }
+
+      .priority-list li::before {
+        flex: 0 0 auto;
+        color: var(--mint-deep);
+        content: ">";
+        font-weight: 820;
+      }
+
+      .engagement-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .engagement-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 26px;
+        background: var(--paper-strong);
+      }
+
+      .engagement-card h3 {
+        margin-bottom: 8px;
+        font-size: 1.26rem;
+      }
+
+      .engagement-card p {
+        color: var(--ink-soft);
+      }
+
+      .engagement-card ul {
+        display: grid;
+        gap: 10px;
+        margin: 22px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .engagement-card li {
+        display: flex;
+        gap: 10px;
+        color: var(--ink-soft);
+      }
+
+      .engagement-card li::before {
+        flex: 0 0 auto;
+        width: 8px;
+        height: 8px;
+        margin-top: 10px;
+        border-radius: 50%;
+        background: var(--mint);
+        content: "";
+      }
+
+      .contact-section {
+        color: #fffaf1;
+        background: var(--night);
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(320px, 0.75fr);
+        gap: clamp(30px, 7vw, 80px);
+        align-items: start;
+      }
+
+      .contact-copy h2 {
+        margin-bottom: 20px;
+      }
+
+      .contact-copy p {
+        max-width: 680px;
+        color: rgba(255, 250, 241, 0.72);
+        font-size: 1.1rem;
+      }
+
+      .contact-details {
+        display: grid;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .contact-details a {
+        width: fit-content;
+        color: #fffaf1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+      }
+
+      .contact-panel {
+        color: var(--ink);
+        padding: clamp(22px, 4vw, 30px);
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .field {
+        display: grid;
+        gap: 7px;
+      }
+
+      .field label {
+        color: var(--ink-soft);
+        font-size: 0.88rem;
+        font-weight: 760;
+      }
+
+      .field input,
+      .field textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 12px 13px;
+        background: #fbfaf6;
+        color: var(--ink);
+        resize: vertical;
+      }
+
+      .field input:focus,
+      .field textarea:focus {
+        border-color: var(--mint);
+        outline: 3px solid rgba(0, 167, 142, 0.16);
+      }
+
+      .form-note {
+        min-height: 24px;
+        margin: 4px 0 0;
+        color: var(--mint-deep);
+        font-size: 0.92rem;
+      }
+
+      .site-footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(255, 250, 241, 0.62);
+        background: var(--night);
+      }
+
+      .footer-shell {
+        width: min(var(--max), calc(100% - 40px));
+        margin: 0 auto;
+        padding: 22px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 0.92rem;
+      }
+
+      .footer-shell span:last-child {
+        text-align: right;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .intro-grid,
+        .section-heading,
+        .method-grid,
+        .readiness-tool,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-grid {
+          padding-top: 112px;
+        }
+
+        .signal-panel {
+          display: none;
+        }
+
+        .card-grid,
+        .engagement-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .nav-shell {
+          width: min(var(--max), calc(100% - 28px));
+          min-height: 66px;
+        }
+
+        .menu-toggle {
+          display: inline-flex;
+        }
+
+        .nav-links {
+          position: fixed;
+          inset: 66px 14px auto;
+          display: none;
+          grid-template-columns: 1fr;
+          gap: 6px;
+          padding: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: var(--radius);
+          background: rgba(17, 16, 14, 0.97);
+          box-shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
+        }
+
+        .menu-open .nav-links {
+          display: grid;
+        }
+
+        .nav-links a {
+          border-radius: var(--radius);
+          padding: 13px 14px;
+        }
+
+        .container,
+        .hero-grid,
+        .footer-shell {
+          width: min(var(--max), calc(100% - 28px));
+        }
+
+        .hero {
+          min-height: auto;
+        }
+
+        .hero-grid {
+          min-height: auto;
+          padding: 96px 0 34px;
+        }
+
+        .hero-proof,
+        .card-grid,
+        .engagement-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-proof {
+          display: none;
+        }
+
+        .score-dial,
+        .result-score {
+          grid-template-columns: 1fr;
+        }
+
+        .score-dial {
+          display: grid;
+        }
+
+        .diagnosis-list li {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+
+        .matrix-row {
+          grid-template-columns: 1fr;
+        }
+
+        .matrix-row:first-child {
+          display: none;
+        }
+
+        .matrix-row > div {
+          border-left: 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .matrix-row > div:first-child {
+          border-top: 0;
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .step {
+          grid-template-columns: 1fr;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 430px) {
+        h1 {
+          font-size: 3rem;
+        }
+
+        .panel-top,
+        .slider-label {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .dial,
+        .score-number {
+          width: 116px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" aria-label="Primary navigation">
+      <div class="nav-shell">
+        <a class="brand" href="#top" aria-label="Lycagon home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Lycagon</span>
+        </a>
+        <nav class="nav-links" id="nav-links" aria-label="Site links">
+          <a href="#service">Product</a>
+          <a href="#method">Method</a>
+          <a href="#readiness">Readiness</a>
+          <a href="#engagements">Deployments</a>
+          <a class="nav-cta" href="#contact">Deploy Lycagon</a>
+        </nav>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-label="Lycagon introduction">
+        <canvas class="network-canvas" id="network-canvas" aria-hidden="true"></canvas>
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">AI readiness for real infrastructure</p>
+            <h1>Lycagon</h1>
+            <p class="hero-copy">
+              Deploy Lycagon inside your environment. Lycagon will learn the systems your AI needs to work with:
+              codebases, graph databases, RAG pipelines, knowledge bases, and operational workflows. Lycagon will
+              understand how they fit together, generate the readiness report, explain the risks, and recommend the
+              changes that make the stack agent-operable.
+            </p>
+            <div class="hero-actions" aria-label="Primary actions">
+              <a class="button button-primary" href="#contact">Deploy Lycagon <span class="arrow" aria-hidden="true">&gt;</span></a>
+              <a class="button button-secondary" href="#readiness">Run a readiness check</a>
+            </div>
+            <div class="hero-proof" aria-label="Lycagon focus areas">
+              <div class="proof-item">
+                <strong>Code</strong>
+                <span>legibility for agents, not only humans</span>
+              </div>
+              <div class="proof-item">
+                <strong>Graphs</strong>
+                <span>schema, traversal, provenance, and super-node risk</span>
+              </div>
+              <div class="proof-item">
+                <strong>RAG</strong>
+                <span>retrieval paths that ground answers instead of bloating context</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="signal-panel" aria-label="Example Lycagon diagnosis">
+            <div class="panel-top">
+              <div class="panel-title">AI-readability signal</div>
+              <div class="panel-state">Needs remediation</div>
+            </div>
+            <div class="signal-body">
+              <div class="score-dial">
+                <div class="dial" aria-hidden="true">
+                  <span>
+                    <strong>40</strong>
+                    <small>AI score</small>
+                  </span>
+                </div>
+                <ul class="diagnosis-list">
+                  <li><b>Human</b><span>Engineers can infer meaning from team context.</span></li>
+                  <li><b>AI</b><span>Agents waste context on vague relationships and missing provenance.</span></li>
+                  <li><b>Fix</b><span>Create typed views, traversal limits, rollback plans, and validation checks.</span></li>
+                </ul>
+              </div>
+              <div class="terminal" aria-label="Sample diagnosis output">
+                <div><span>&gt;</span> lycagon diagnose --adapter graph</div>
+                <div>classification: human_readable</div>
+                <div>risk: token_burn high, retrieval_noise medium</div>
+                <div>next: derived AI-compatible graph view</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section compact intro-band" id="service">
+        <div class="container intro-grid">
+          <div>
+            <p class="section-kicker">What Lycagon runs</p>
+            <p class="lead-text">
+              Lycagon will connect to the systems AI will operate and learn their structure: explicit naming, bounded
+              context, stable interfaces, traceable evidence, and change paths that can be previewed before they touch
+              production.
+            </p>
+          </div>
+          <div class="quote-block">
+            AI-ready does not mean "add a chatbot." It means the system itself is legible enough for AI to operate.
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Product scope</p>
+              <h2>From human-readable to agent-operable.</h2>
+            </div>
+            <p>
+              Lycagon will learn the environment, understand where AI will struggle, and turn the findings into
+              practical remediation recommendations. The goal is lower inference cost, better retrieval, fewer stalled
+              plans, and code AI can work with.
+            </p>
+          </div>
+          <div class="card-grid">
+            <article class="card" style="--icon-color: var(--mint)">
+              <div class="card-label"><span class="mini-icon" aria-hidden="true"></span>Connect</div>
+              <h3>Environment learning</h3>
+              <p>Lycagon will learn code structure, graph schemas, dependencies, workflows, documentation, and data pathways.</p>
+            </article>
+            <article class="card" style="--icon-color: var(--amber)">
+              <div class="card-label"><span class="mini-icon" aria-hidden="true"></span>Score</div>
+              <h3>Human vs AI legibility</h3>
+              <p>Lycagon will understand what a senior engineer can infer and what an agent can use without steering.</p>
+            </article>
+            <article class="card" style="--icon-color: var(--coral)">
+              <div class="card-label"><span class="mini-icon" aria-hidden="true"></span>Model</div>
+              <h3>Report and risk findings</h3>
+              <p>Generate findings for token burn, retrieval noise, vague boundaries, super nodes, weak provenance, and plan friction.</p>
+            </article>
+            <article class="card" style="--icon-color: var(--plum)">
+              <div class="card-label"><span class="mini-icon" aria-hidden="true"></span>Recommend</div>
+              <h3>Remediation plan</h3>
+              <p>Recommend safer interfaces, derived views, schema repairs, validation gates, and reversible agent workflows.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section dark-section" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Method</p>
+              <h2>Measure the gap before handing systems to agents.</h2>
+            </div>
+            <p>
+              Lycagon will learn before it recommends. Every report shows what was observed, why it matters, what it
+              costs, and how to make the change safely.
+            </p>
+          </div>
+          <div class="method-grid">
+            <div class="method-copy">
+              <p>
+                The first Lycagon wedge is graph and knowledge-system expertise: Neo4j, FalkorDB, schema discovery,
+                GraphRAG structure, traversal control, and provenance. The same lens applies to code and infrastructure:
+                can Lycagon understand enough of the environment for agents to act without burning context or guessing
+                intent?
+              </p>
+              <div class="signal-matrix" aria-label="Readability matrix">
+                <div class="matrix-row">
+                  <div>Signal</div>
+                  <div>Human-readable</div>
+                  <div>AI-ready</div>
+                </div>
+                <div class="matrix-row">
+                  <div>Names</div>
+                  <div>Clear to people who know the domain</div>
+                  <div>Typed, consistent, and usable without tribal memory</div>
+                </div>
+                <div class="matrix-row">
+                  <div>Context</div>
+                  <div>Explained in docs or meetings</div>
+                  <div>Compactly discoverable by tools and agents</div>
+                </div>
+                <div class="matrix-row">
+                  <div>Changes</div>
+                  <div>Reviewed by humans after implementation</div>
+                  <div>Previewed, validated, gated, and reversible</div>
+                </div>
+              </div>
+            </div>
+            <div class="method-steps">
+              <article class="step">
+                <div class="step-number">1</div>
+                <div>
+                  <h3>Learn the environment</h3>
+                  <p>Lycagon will map code modules, graph labels, relationships, indexes, constraints, retrieval paths, and operational boundaries.</p>
+                </div>
+              </article>
+              <article class="step">
+                <div class="step-number">2</div>
+                <div>
+                  <h3>Understand readability</h3>
+                  <p>Lycagon will classify what is human-readable, AI-readable, mixed, or neither, with evidence attached to each factor.</p>
+                </div>
+              </article>
+              <article class="step">
+                <div class="step-number">3</div>
+                <div>
+                  <h3>Calculate operating cost</h3>
+                  <p>Lycagon quantifies token burn, retrieval noise, planning friction, and human steering pressure.</p>
+                </div>
+              </article>
+              <article class="step">
+                <div class="step-number">4</div>
+                <div>
+                  <h3>Recommend remediation</h3>
+                  <p>Lycagon recommends derived structures, agent-facing interfaces, validation gates, and rollback notes before source mutation.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section readiness-section" id="readiness">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Quick readiness check</p>
+              <h2>Estimate the AI-operability of your current system.</h2>
+            </div>
+            <p>
+              This quick check mirrors the signals Lycagon scores after deployment. It shows where your architecture
+              probably leaks context, confidence, or control when AI starts managing real work.
+            </p>
+          </div>
+          <div class="readiness-tool">
+            <div class="control-panel">
+              <div class="slider-group" aria-label="AI readiness inputs">
+                <div class="slider-row">
+                  <label class="slider-label" for="schema">
+                    <span>Structure clarity</span>
+                    <output id="schema-output" for="schema">62</output>
+                  </label>
+                  <input id="schema" class="readiness-input" type="range" min="0" max="100" value="62" data-weight="0.3" />
+                  <p>Names, boundaries, contracts, graph labels, and relationship types are explicit and consistent.</p>
+                </div>
+                <div class="slider-row">
+                  <label class="slider-label" for="provenance">
+                    <span>Evidence and provenance</span>
+                    <output id="provenance-output" for="provenance">48</output>
+                  </label>
+                  <input id="provenance" class="readiness-input" type="range" min="0" max="100" value="48" data-weight="0.25" />
+                  <p>Agents can trace answers, data, and decisions back to sources without asking a human.</p>
+                </div>
+                <div class="slider-row">
+                  <label class="slider-label" for="traversal">
+                    <span>Traversal and retrieval control</span>
+                    <output id="traversal-output" for="traversal">42</output>
+                  </label>
+                  <input id="traversal" class="readiness-input" type="range" min="0" max="100" value="42" data-weight="0.25" />
+                  <p>RAG, GraphRAG, and search paths are bounded, typed, grounded, and resistant to noisy expansion.</p>
+                </div>
+                <div class="slider-row">
+                  <label class="slider-label" for="autonomy">
+                    <span>Agent change safety</span>
+                    <output id="autonomy-output" for="autonomy">36</output>
+                  </label>
+                  <input id="autonomy" class="readiness-input" type="range" min="0" max="100" value="36" data-weight="0.2" />
+                  <p>AI-generated work can be previewed, validated, approved, applied, and rolled back cleanly.</p>
+                </div>
+              </div>
+            </div>
+            <aside class="result-panel" aria-live="polite">
+              <div class="result-score">
+                <div class="score-number" id="readiness-score">48</div>
+                <div>
+                  <div class="score-title" id="readiness-title">Human-readable, not AI-ready yet</div>
+                  <p class="score-copy" id="readiness-copy">
+                    The system may make sense to engineers, but agents will need steering and extra context.
+                  </p>
+                </div>
+              </div>
+              <div class="risk-list" aria-label="Risk levels">
+                <div class="risk-item">
+                  <span><b>Token burn</b><em id="token-value">51%</em></span>
+                  <div class="risk-bar"><i id="token-bar"></i></div>
+                </div>
+                <div class="risk-item">
+                  <span><b>Retrieval noise</b><em id="retrieval-value">58%</em></span>
+                  <div class="risk-bar"><i id="retrieval-bar"></i></div>
+                </div>
+                <div class="risk-item">
+                  <span><b>Human steering</b><em id="steering-value">64%</em></span>
+                  <div class="risk-bar"><i id="steering-bar"></i></div>
+                </div>
+              </div>
+              <ul class="priority-list" id="priority-list" aria-label="Likely next priorities"></ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="engagements">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Deployments</p>
+              <h2>Run Lycagon where AI will touch production work.</h2>
+            </div>
+            <p>
+              Install Lycagon against the systems that matter. Lycagon will learn the stack, generate the first report,
+              then recommend the path toward agent-ready operations.
+            </p>
+          </div>
+          <div class="engagement-grid">
+            <article class="engagement-card">
+              <h3>Readiness scan</h3>
+              <p>A fast Lycagon run for teams deciding whether their stack is ready for AI-assisted operations.</p>
+              <ul>
+                <li>Architecture and codebase inventory</li>
+                <li>AI-readability score</li>
+                <li>Cost and risk report</li>
+              </ul>
+            </article>
+            <article class="engagement-card">
+              <h3>Graph and RAG repair</h3>
+              <p>For teams with knowledge graphs, RAG systems, GraphRAG pipelines, or graph-backed agent memory.</p>
+              <ul>
+                <li>Schema and traversal findings</li>
+                <li>Provenance and retrieval checks</li>
+                <li>Derived AI-compatible views</li>
+              </ul>
+            </article>
+            <article class="engagement-card">
+              <h3>Agent-operable code</h3>
+              <p>Map code and workflows so AI can propose, validate, and manage changes with guardrails.</p>
+              <ul>
+                <li>Agent-facing project map</li>
+                <li>Review and rollback workflow</li>
+                <li>Implementation roadmap</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="container contact-grid">
+          <div class="contact-copy">
+            <p class="section-kicker">Deploy</p>
+            <h2>Put Lycagon inside the environment AI needs to understand.</h2>
+            <p>
+              Point Lycagon at your stack. Lycagon will learn how it is structured, understand the gaps that block AI,
+              and recommend the structures, interfaces, and safeguards needed before agents manage production work.
+            </p>
+            <div class="contact-details">
+              <a href="mailto:hello@lycagon.com">hello@lycagon.com</a>
+              <a href="https://lycagon.com">lycagon.com</a>
+            </div>
+          </div>
+          <form class="contact-panel" id="contact-form">
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" autocomplete="name" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@company.com" />
+              </div>
+              <div class="field">
+                <label for="stack">Stack or system</label>
+                <input id="stack" name="stack" placeholder="Codebase, graph DB, RAG pipeline, data platform..." />
+              </div>
+              <div class="field">
+                <label for="goal">What should AI manage?</label>
+                <textarea id="goal" name="goal" rows="5" placeholder="Describe the work you want AI agents to understand or operate."></textarea>
+              </div>
+              <button class="button button-primary" type="submit">Draft deployment request <span class="arrow" aria-hidden="true">&gt;</span></button>
+              <p class="form-note" id="form-note"></p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-shell">
+        <span>&copy; <span id="year"></span> Lycagon. AI-ready systems for agent-operated work.</span>
+        <span>Lycagon.com</span>
+      </div>
+    </footer>
+
+    <script>
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const body = document.body;
+      const menuToggle = document.querySelector(".menu-toggle");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      const year = document.getElementById("year");
+
+      year.textContent = new Date().getFullYear();
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = body.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          body.classList.remove("menu-open");
+          menuToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      const canvas = document.getElementById("network-canvas");
+      const ctx = canvas.getContext("2d");
+      let width = 0;
+      let height = 0;
+      let nodes = [];
+      let frame = 0;
+
+      function resizeCanvas() {
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        width = canvas.offsetWidth;
+        height = canvas.offsetHeight;
+        canvas.width = Math.floor(width * ratio);
+        canvas.height = Math.floor(height * ratio);
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        nodes = createNodes();
+        drawNetwork();
+      }
+
+      function createNodes() {
+        const count = Math.max(34, Math.floor((width * height) / 28000));
+        return Array.from({ length: count }, (_, index) => {
+          const lane = index % 4;
+          return {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.24,
+            vy: (Math.random() - 0.5) * 0.24,
+            size: lane === 0 ? 3.4 : 2.2 + Math.random() * 1.8,
+            hue: lane === 0 ? "#00a78e" : lane === 1 ? "#f1b23e" : lane === 2 ? "#d9543f" : "#fffaf1"
+          };
+        });
+      }
+
+      function drawNetwork() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "#11100e";
+        ctx.fillRect(0, 0, width, height);
+
+        const maxDistance = Math.min(220, Math.max(120, width / 5));
+        for (let i = 0; i < nodes.length; i += 1) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j += 1) {
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const distance = Math.hypot(dx, dy);
+            if (distance < maxDistance) {
+              const opacity = (1 - distance / maxDistance) * 0.2;
+              ctx.strokeStyle = `rgba(248, 247, 242, ${opacity})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        nodes.forEach((node) => {
+          ctx.beginPath();
+          ctx.fillStyle = node.hue;
+          ctx.globalAlpha = node.hue === "#fffaf1" ? 0.48 : 0.9;
+          ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        });
+      }
+
+      function animateNetwork() {
+        if (!prefersReducedMotion) {
+          frame += 1;
+          nodes.forEach((node, index) => {
+            node.x += node.vx + Math.sin((frame + index * 11) / 120) * 0.04;
+            node.y += node.vy + Math.cos((frame + index * 7) / 130) * 0.04;
+            if (node.x < -20) node.x = width + 20;
+            if (node.x > width + 20) node.x = -20;
+            if (node.y < -20) node.y = height + 20;
+            if (node.y > height + 20) node.y = -20;
+          });
+          drawNetwork();
+          requestAnimationFrame(animateNetwork);
+        }
+      }
+
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+      animateNetwork();
+
+      const inputs = Array.from(document.querySelectorAll(".readiness-input"));
+      const scoreEl = document.getElementById("readiness-score");
+      const titleEl = document.getElementById("readiness-title");
+      const copyEl = document.getElementById("readiness-copy");
+      const priorityList = document.getElementById("priority-list");
+      const bars = {
+        token: document.getElementById("token-bar"),
+        retrieval: document.getElementById("retrieval-bar"),
+        steering: document.getElementById("steering-bar")
+      };
+      const values = {
+        token: document.getElementById("token-value"),
+        retrieval: document.getElementById("retrieval-value"),
+        steering: document.getElementById("steering-value")
+      };
+
+      const readinessLabels = {
+        schema: "Create clearer system boundaries and naming contracts.",
+        provenance: "Add source trails, ownership, and evidence links.",
+        traversal: "Constrain retrieval paths and model high-fanout areas.",
+        autonomy: "Add preview, validation, approval, and rollback gates."
+      };
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function updateReadiness() {
+        const state = inputs.reduce(
+          (acc, input) => {
+            const value = Number(input.value);
+            const weight = Number(input.dataset.weight);
+            acc.score += value * weight;
+            acc.values[input.id] = value;
+            document.getElementById(`${input.id}-output`).textContent = value;
+            return acc;
+          },
+          { score: 0, values: {} }
+        );
+
+        const score = Math.round(state.score);
+        const tokenBurn = clamp(Math.round(100 - (state.values.schema * 0.45 + state.values.provenance * 0.25 + state.values.traversal * 0.3)), 0, 100);
+        const retrievalNoise = clamp(Math.round(100 - (state.values.traversal * 0.55 + state.values.provenance * 0.35 + state.values.schema * 0.1)), 0, 100);
+        const humanSteering = clamp(Math.round(100 - (state.values.autonomy * 0.5 + state.values.schema * 0.28 + state.values.provenance * 0.22)), 0, 100);
+
+        scoreEl.textContent = score;
+        bars.token.style.width = `${tokenBurn}%`;
+        bars.retrieval.style.width = `${retrievalNoise}%`;
+        bars.steering.style.width = `${humanSteering}%`;
+        values.token.textContent = `${tokenBurn}%`;
+        values.retrieval.textContent = `${retrievalNoise}%`;
+        values.steering.textContent = `${humanSteering}%`;
+
+        if (score >= 80) {
+          titleEl.textContent = "Ready for agent-assisted operations";
+          copyEl.textContent = "Your system has strong signals for AI readability, but production gates still matter.";
+        } else if (score >= 60) {
+          titleEl.textContent = "Promising, but guardrails are missing";
+          copyEl.textContent = "AI can help, but unclear structure or weak controls may make the work expensive.";
+        } else {
+          titleEl.textContent = "Human-readable, not AI-ready yet";
+          copyEl.textContent = "The system may make sense to engineers, but agents will need steering and extra context.";
+        }
+
+        const priorities = Object.entries(state.values)
+          .sort((a, b) => a[1] - b[1])
+          .slice(0, 3)
+          .map(([key]) => readinessLabels[key]);
+
+        priorityList.innerHTML = priorities.map((item) => `<li>${item}</li>`).join("");
+      }
+
+      inputs.forEach((input) => input.addEventListener("input", updateReadiness));
+      updateReadiness();
+
+      const form = document.getElementById("contact-form");
+      const formNote = document.getElementById("form-note");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const name = formData.get("name") || "";
+        const email = formData.get("email") || "";
+        const stack = formData.get("stack") || "";
+        const goal = formData.get("goal") || "";
+        const bodyLines = [
+          "Hi Lycagon,",
+          "",
+          "I would like to deploy Lycagon into my environment so it can learn and understand the stack.",
+          "",
+          `Name: ${name}`,
+          `Email: ${email}`,
+          `Stack or system: ${stack}`,
+          "",
+          "What AI should manage:",
+          goal,
+          "",
+          "Thanks."
+        ];
+        const subject = encodeURIComponent("Lycagon deployment request");
+        const bodyText = encodeURIComponent(bodyLines.join("\n"));
+        window.location.href = `mailto:hello@lycagon.com?subject=${subject}&body=${bodyText}`;
+        formNote.textContent = "Email draft opened. You can edit it before sending.";
+      });
+    </script>
+  </body>
+</html>
