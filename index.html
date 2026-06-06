@@ -6,7 +6,7 @@
     <title>Lycagon | AI-ready infrastructure, code, and knowledge systems</title>
     <meta
       name="description"
-      content="Deploy Lycagon inside your environment to diagnose whether your code, graph databases, knowledge bases, RAG systems, and infrastructure are ready for AI agents."
+      content="Integrate Lycagon in your infrastructure so it can learn, understand, and report whether your code, graph databases, knowledge bases, RAG systems, and infrastructure are ready for AI agents."
     />
     <meta name="theme-color" content="#11100e" />
     <style>
@@ -1056,6 +1056,24 @@
         }
       }
 
+      @media (min-width: 981px) and (max-height: 760px) {
+        .hero-grid {
+          padding: 102px 0 30px;
+        }
+
+        .hero h1 {
+          font-size: clamp(3rem, 7vw, 6.25rem);
+        }
+
+        .hero-actions {
+          margin-top: 22px;
+        }
+
+        .hero-proof {
+          display: none;
+        }
+      }
+
       @media (max-width: 760px) {
         .nav-shell {
           width: min(var(--max), calc(100% - 28px));
@@ -1196,8 +1214,8 @@
           <a href="#service">Product</a>
           <a href="#method">Method</a>
           <a href="#readiness">Readiness</a>
-          <a href="#engagements">Deployments</a>
-          <a class="nav-cta" href="#contact">Deploy Lycagon</a>
+          <a href="#engagements">Integration</a>
+          <a class="nav-cta" href="#contact">Integrate Lycagon</a>
         </nav>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">
           <span aria-hidden="true"></span>
@@ -1213,13 +1231,13 @@
             <p class="eyebrow">AI readiness for real infrastructure</p>
             <h1>Lycagon</h1>
             <p class="hero-copy">
-              Deploy Lycagon inside your environment. Lycagon will learn the systems your AI needs to work with:
-              codebases, graph databases, RAG pipelines, knowledge bases, and operational workflows. Lycagon will
-              understand how they fit together, generate the readiness report, explain the risks, and recommend the
-              changes that make the stack agent-operable.
+              Integrate Lycagon in your infrastructure. Lycagon will learn the systems your AI needs to work with:
+              codebases, graph databases, RAG pipelines, knowledge bases, and operational workflows. No two-week
+              discovery cycle. Lycagon will understand how they fit together, generate the readiness report, explain
+              the risks, and recommend the changes that make the stack agent-operable.
             </p>
             <div class="hero-actions" aria-label="Primary actions">
-              <a class="button button-primary" href="#contact">Deploy Lycagon <span class="arrow" aria-hidden="true">&gt;</span></a>
+              <a class="button button-primary" href="#contact">Integrate Lycagon <span class="arrow" aria-hidden="true">&gt;</span></a>
               <a class="button button-secondary" href="#readiness">Run a readiness check</a>
             </div>
             <div class="hero-proof" aria-label="Lycagon focus areas">
@@ -1273,13 +1291,13 @@
           <div>
             <p class="section-kicker">What Lycagon runs</p>
             <p class="lead-text">
-              Lycagon will connect to the systems AI will operate and learn their structure: explicit naming, bounded
+              Lycagon will integrate in the systems AI will operate and learn their structure: explicit naming, bounded
               context, stable interfaces, traceable evidence, and change paths that can be previewed before they touch
               production.
             </p>
           </div>
           <div class="quote-block">
-            AI-ready does not mean "add a chatbot." It means the system itself is legible enough for AI to operate.
+            Code should be written for AI, so that it can be managed by AI.
           </div>
         </div>
       </section>
@@ -1289,12 +1307,12 @@
           <div class="section-heading">
             <div>
               <p class="section-kicker">Product scope</p>
-              <h2>From human-readable to agent-operable.</h2>
+              <h2>Learn, understand, recommend.</h2>
             </div>
             <p>
-              Lycagon will learn the environment, understand where AI will struggle, and turn the findings into
+              Lycagon will learn your infrastructure, understand where AI will struggle, and turn the findings into
               practical remediation recommendations. The goal is lower inference cost, better retrieval, fewer stalled
-              plans, and code AI can work with.
+              plans, and code AI can manage.
             </p>
           </div>
           <div class="card-grid">
@@ -1407,7 +1425,7 @@
               <h2>Estimate the AI-operability of your current system.</h2>
             </div>
             <p>
-              This quick check mirrors the signals Lycagon scores after deployment. It shows where your architecture
+              This quick check mirrors the signals Lycagon scores after integration. It shows where your architecture
               probably leaks context, confidence, or control when AI starts managing real work.
             </p>
           </div>
@@ -1482,12 +1500,12 @@
         <div class="container">
           <div class="section-heading">
             <div>
-              <p class="section-kicker">Deployments</p>
-              <h2>Run Lycagon where AI will touch production work.</h2>
+              <p class="section-kicker">Integration</p>
+              <h2>Integrate Lycagon in the infrastructure AI will manage.</h2>
             </div>
             <p>
-              Install Lycagon against the systems that matter. Lycagon will learn the stack, generate the first report,
-              then recommend the path toward agent-ready operations.
+              No consulting discovery sprint. Integrate Lycagon in the systems that matter, let Lycagon learn the
+              stack, then use the report and recommendations to move toward agent-ready operations.
             </p>
           </div>
           <div class="engagement-grid">
@@ -1525,15 +1543,14 @@
       <section class="section contact-section" id="contact">
         <div class="container contact-grid">
           <div class="contact-copy">
-            <p class="section-kicker">Deploy</p>
-            <h2>Put Lycagon inside the environment AI needs to understand.</h2>
+            <p class="section-kicker">Integrate</p>
+            <h2>Integrate Lycagon in your infrastructure.</h2>
             <p>
-              Point Lycagon at your stack. Lycagon will learn how it is structured, understand the gaps that block AI,
-              and recommend the structures, interfaces, and safeguards needed before agents manage production work.
+              Connect Lycagon with your stack. Lycagon will learn how it is structured, understand the gaps that block
+              AI, and recommend the structures, interfaces, and safeguards needed before agents manage production work.
             </p>
             <div class="contact-details">
               <a href="mailto:hello@lycagon.com">hello@lycagon.com</a>
-              <a href="https://lycagon.com">lycagon.com</a>
             </div>
           </div>
           <form class="contact-panel" id="contact-form">
@@ -1554,7 +1571,7 @@
                 <label for="goal">What should AI manage?</label>
                 <textarea id="goal" name="goal" rows="5" placeholder="Describe the work you want AI agents to understand or operate."></textarea>
               </div>
-              <button class="button button-primary" type="submit">Draft deployment request <span class="arrow" aria-hidden="true">&gt;</span></button>
+              <button class="button button-primary" type="submit">Draft integration request <span class="arrow" aria-hidden="true">&gt;</span></button>
               <p class="form-note" id="form-note"></p>
             </div>
           </form>
@@ -1564,7 +1581,7 @@
 
     <footer class="site-footer">
       <div class="footer-shell">
-        <span>&copy; <span id="year"></span> Lycagon. AI-ready systems for agent-operated work.</span>
+        <span>&copy; <span id="year"></span> Lycagon. Code written for AI, managed by AI.</span>
         <span>Lycagon.com</span>
       </div>
     </footer>
@@ -1766,7 +1783,7 @@
         const bodyLines = [
           "Hi Lycagon,",
           "",
-          "I would like to deploy Lycagon into my environment so it can learn and understand the stack.",
+          "I would like to integrate Lycagon in my infrastructure so it can learn and understand the stack.",
           "",
           `Name: ${name}`,
           `Email: ${email}`,
@@ -1777,7 +1794,7 @@
           "",
           "Thanks."
         ];
-        const subject = encodeURIComponent("Lycagon deployment request");
+        const subject = encodeURIComponent("Lycagon integration request");
         const bodyText = encodeURIComponent(bodyLines.join("\n"));
         window.location.href = `mailto:hello@lycagon.com?subject=${subject}&body=${bodyText}`;
         formNote.textContent = "Email draft opened. You can edit it before sending.";
